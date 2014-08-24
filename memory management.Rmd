@@ -1,0 +1,39 @@
+---
+title: "Memory Management"
+author: "Jonathan Rosenblatt"
+date: "Sunday, August 24, 2014"
+output: html_document
+---
+
+# Duplication of objects when passed to functions
+It does not matter how you pass an object to a function. Just make sure the objects are as simple as needed.
+
+
+Matrix does not create a copy:
+```{r}
+
+A <- rnorm(1e6)
+tracemem(A)
+foo <- function(B) sum(B)
+A <- rnorm(1e6)
+tracemem(A)
+foo(A)
+
+
+```
+
+
+Data frames create copies:
+```{r}
+
+C<- data.frame(A)
+tracemem(C)
+foo(C)
+
+bar <- function() sum(A)
+bar()
+
+bar2 <- function() sum(C)
+bar2()
+
+```
